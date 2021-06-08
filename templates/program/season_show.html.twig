@@ -1,0 +1,40 @@
+{# templates/program/season_show.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Saison #{{ season.number }}
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="media">
+		<h2>Saison :
+			{{season.number }}</h2>
+		<p>Année :
+			{{ season.year }}</p>
+		<p>Description :
+			{{ season.description }}</p>
+
+{% for episode in episodes %}
+	<div>
+		<h2>Episode :
+			{{episode.number }}</h2>
+		<p>Titre :
+			{{ episode.title }}</p>
+		<p>Description :
+			{{ episode.synopsis }}</p>
+		{# Lien vers la fiche détaillé de la saison : #}
+<a class="fiche" href="{{ path("program_season_show", { "programId": program.id, "seasonId": season.id }) }}">Voir la fiche</a>
+
+	</div>
+{% else %}
+	Aucun épisode trouvé.
+{% endfor %}
+
+	</div>
+	<a href="{{ path('program_show', { "id": program.id }) }}">
+		Retour à la liste des programmes et saisons
+	</a>
+
+{% endblock %}
