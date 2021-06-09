@@ -17,10 +17,8 @@
 				{{ program.category.name }}</p>
 		</div>
 
-<div class="d-block">
-
-		{% for season in seasons %}
-			
+		<div class="d-block">
+			{% for season in seasons %}
 				<h2>Saison :
 					{{season.number }}</h2>
 				<p>Année :
@@ -28,17 +26,12 @@
 				<p>Description :
 					{{ season.description }}</p>
 				{# Lien vers la fiche détaillé de la saison : #}
-<a class="fiche" href="{{ path("program_season_show", { "programId": program.id, "seasonId": season.id }) }}">Voir la fiche</a>
-
-			
-		{% else %}
-			Aucune saison trouvée.
-		{% endfor %}
-</div>
-
-
+				<a class="fiche" href="{{ path("program_season_show", { "programId": program.id, "seasonId": season.id }) }}">Voir la fiche</a>
+			{% else %}
+				Aucune saison trouvée.
+			{% endfor %}
+		</div>
 	</div>
-
 
 	<a href="{{ path('program_index') }}">
 		Retour à la liste des programmes
