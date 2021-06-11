@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Nouveau category{% endblock %}
+
+
+{% block body %}
+    <h1>Ajouter une nouvelle catégorie</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type='submit' value='Ajout'>
+    {{ form_end(form) }}
+{% endblock %}
+
