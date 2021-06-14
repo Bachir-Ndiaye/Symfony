@@ -3,12 +3,20 @@
 namespace App\DataFixtures;
 
 use App\Entity\Program;
+use App\Service\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
+    protected $slufigy;
+
+    public function __construct(Slugify $slugify)
+    {
+        $this->slufigy = $slugify;
+    }
+
     public function load(ObjectManager $manager)
     {
         for($i=0; $i<5; $i++){
@@ -18,6 +26,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
                 ->setPoster('Image walking dead...'.$i)
                 ->setCountry('US'.$i)
                 ->setYear('1978'.$i)
+                ->setSlug($this->slufigy->generate('Walking dead' . $i))
                 ->setCategory($this->getReference('category_'.$i));
                 $this->addReference('program_' . $i, $program);
                 $program->addActor($this->getReference('actor_' . $i));

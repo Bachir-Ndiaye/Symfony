@@ -14,3 +14,5 @@ Link to video : https://www.loom.com/share/6172a85be77f443d8275a3434e3f7975 (que
 Link to video : https://www.loom.com/share/91125fa221fe48faa8ab1d270d6dbe6f (quete16)
 
 Link to video : https://www.loom.com/share/a52ce652836f4e4a8886f436980f7788 (quete17)
+
+Link to video : https://www.loom.com/share/4492ab56ac504ef0a31a766e200a7900 (quete18)
