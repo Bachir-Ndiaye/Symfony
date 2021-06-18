@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Série
+{% endblock %}
+
+{% block body %}
+    <h1>Modifier une série</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Modifier') }}</button>
+    {{ form_end(form) }}
+
+<a href="{{ path('season_index') }}">Retour à la liste</a>
+{% endblock %}
+

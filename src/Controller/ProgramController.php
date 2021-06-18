@@ -15,6 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -56,6 +58,7 @@ class ProgramController extends AbstractController
 
             $slug = $slugify->generate($program->getTitle());
             $program->setSlug($slug);
+            $program->setOwner($this->getUser());
 
             $entityManager->persist($program);
             $entityManager->flush();
@@ -159,4 +162,57 @@ class ProgramController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
+     */
+    public function edit(Program $program, Request $request): Response
+    {
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        // Check wether the logged in user is the owner of the program
+        if (!($this->getUser() == $program->getOwner())) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw new AccessDeniedException('Seul le proprio de cette série peut le modifier');
+        }
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('program_index');
+        }
+
+        return $this->render('program/edit.html.twig', [
+            'program' => $program,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/delete/{commentId}", name="comment_delete", methods={"POST"})
+     * @ParamConverter("comment", class="App\Entity\Comment", options={"mapping": {"commentId": "id"}})
+     * @IsGranted("ROLE_CONTRIBUTOR")
+     */
+    public function delete(Request $request, Comment $comment): Response
+    {
+        $program = $comment->getEpisode()->getSeason()->getProgram()->getId();
+        $season = $comment->getEpisode()->getSeason()->getId();
+        $episode = $comment->getEpisode()->getId();
+
+        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($comment);
+            $entityManager->flush();
+        }
+
+    
+        return $this->redirectToRoute('program_episode_show', [
+            'programId' => $program,
+            'seasonId' => $season,
+            'episodeId' => $episode
+        ]);
+    }
+
+    
 }

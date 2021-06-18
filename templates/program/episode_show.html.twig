@@ -24,6 +24,7 @@
         Retour à la liste des épisodes
     </a>
 
+{% if is_granted("ROLE_ADMIN") or is_granted("ROLE_CONTRIBUTOR") %}
     {% if app.user and form is defined %}
         <div class="comments">
             {{ form_start(form) }}
@@ -32,6 +33,7 @@
             {{ form_end(form) }}
         </div>
     {% endif %}
+{% endif %}
 
     {% if episode.comments is not null %}
         <h1>Liste des commentaires : </h1>
@@ -40,10 +42,14 @@
         <div class="all-comments">
             <p>Commentaire {{comment.id}} : {{comment.comment}}</p>
             <p>Rate : {{comment.rate}}</p>
+            {% if is_granted("ROLE_ADMIN") or app.user == comment.author %}
+                <form method="post" action="{{ path('program_comment_delete', {'commentId': comment.id}) }}" onsubmit="return confirm('Are you sure you want to delete this comment?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                    <button class="btn">Supprimer</button>
+                </form>
+            {% endif %}
         </div>
     {% endfor %}
-
-
 
 {% endblock %}
 

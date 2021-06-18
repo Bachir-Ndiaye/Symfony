@@ -27,6 +27,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
                 ->setCountry('US'.$i)
                 ->setYear('1978'.$i)
                 ->setSlug($this->slufigy->generate('Walking dead' . $i))
+                ->setOwner($program->getOwner())
                 ->setCategory($this->getReference('category_'.$i));
                 $this->addReference('program_' . $i, $program);
                 $program->addActor($this->getReference('actor_' . $i));
@@ -41,6 +42,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         return [
             ActorFixtures::class,
             CategoryFixtures::class,
+            UserFixtures::class
         ];
     }
 }
