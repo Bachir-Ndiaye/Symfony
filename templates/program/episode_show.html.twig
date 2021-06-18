@@ -8,21 +8,42 @@
 
 {% block body %}
 
-	<div class="media">
-		<h2>Série :
-			{{program.title }}</h2>
-		<h2>Saison :
-			{{ season.number }}</h2>
-		<p>Episode :
-			{{ episode.title }}, Numéro
-			{{ episode.number }}</p>
-		<p>Descriptif épisode :
-			{{ episode.synopsis }}</p>
+    <div class="media">
+        <h2>Série :
+            {{program.title }}</h2>
+        <h2>Saison :
+            {{ season.number }}</h2>
+        <p>Episode :
+            {{ episode.title }}, Numéro
+            {{ episode.number }}</p>
+        <p>Descriptif épisode :
+            {{ episode.synopsis }}</p>
 
-	</div>
-	<a href="{{ path('program_season_show', { "programId": program.id, "seasonId": season.id }) }}">
-		Retour à la liste des épisodes
-	</a>
+    </div>
+    <a href="{{ path('program_season_show', { "programId": program.id, "seasonId": season.id }) }}">
+        Retour à la liste des épisodes
+    </a>
+
+    {% if app.user and form is defined %}
+        <div class="comments">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn">{{ button_label|default('Ajouter un commentaire') }}</button>
+            {{ form_end(form) }}
+        </div>
+    {% endif %}
+
+    {% if episode.comments is not null %}
+        <h1>Liste des commentaires : </h1>
+    {% endif %}
+    {% for comment in episode.comments %}
+        <div class="all-comments">
+            <p>Commentaire {{comment.id}} : {{comment.comment}}</p>
+            <p>Rate : {{comment.rate}}</p>
+        </div>
+    {% endfor %}
+
+
 
 {% endblock %}
 
