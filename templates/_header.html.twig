@@ -10,9 +10,8 @@
       <a class="nav-item nav-link" href="{{path('season_index')}}">Seasons</a>
       <a class="nav-item nav-link" href="{{path('episode_index')}}">Episodes</a>
         {% if app.user %}
-          {{ app.user.email }}
-          <a href="{{ path('app_logout') }}">
-            Se déconnecter</a>
+          <a href="{{ path('profile') }}">
+            Mon compte</a>
         {% else %}
           <a href="{{ path('app_login') }}">
             Se connecter</a>

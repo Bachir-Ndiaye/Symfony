@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+
+
+<div>
+  <h1>Bienvenue dans votre espace personnel {{ app.user.username }}</h1>
+<p>
+	<a href="{{ path('app_logout') }}">
+		<h2>Se déconnecter</h2>
+	</a>
+</p>
+
+</div>
+{% endblock %}
