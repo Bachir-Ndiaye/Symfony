@@ -26,3 +26,5 @@ Link to video : https://www.loom.com/share/a7e3dbcaba16483faf8546c89584ebac (que
 Link to video : https://www.loom.com/share/12634c6468724b6489fc3091ef4ace01 (quete22)
 
 Link to vidéo : https://www.loom.com/share/6b26abb0fcee470480e0e9e172611cab (quete23)
+
+Link to vidéo : https://www.loom.com/share/02221ad0b10043039f23e48695772522 (quete24)

@@ -83,6 +83,9 @@ class ProgramController extends AbstractController
 
             $mailer->send($email);
 
+            // Once the form is submitted, valid and the data inserted in database, you can define the success flash message
+            $this->addFlash('success', 'La nouvelle série a été bien enregistrée !');
+
             return $this->redirectToRoute('program_index');
         }
 
@@ -152,6 +155,8 @@ class ProgramController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Commentaire ajouté avec succès !');
+
             return $this->render('program/episode_show.html.twig', [
                 'program' => $program,
                 'season' => $season,
@@ -190,6 +195,9 @@ class ProgramController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Série modidifiée avec succès !');
+
             return $this->redirectToRoute('program_index');
         }
 
@@ -214,6 +222,8 @@ class ProgramController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($comment);
             $entityManager->flush();
+            $this->addFlash('danger', 'Commentaire supprimé avec succès !');
+
         }
     
         return $this->redirectToRoute('program_episode_show', [
