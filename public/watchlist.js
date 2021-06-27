@@ -1,23 +1,3 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-
-// any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.scss';
-
-// start the Stimulus application
-import './bootstrap';
-
-//import favicon
-import logoPath from './images/logo.png';
-
-//import bootstrap icons
-import 'bootstrap-icons/font/bootstrap-icons.css';
-
-
 //addTowatchlist
 document.querySelector("#watchlist").addEventListener('click', addToWatchlist);
 
@@ -29,6 +9,7 @@ function addToWatchlist(event) {
     let watchlistLink = event.currentTarget;
 
     let link = watchlistLink.href;
+    console.log('yes')
 
     // Send an HTTP request with fetch to the URI defined in the href
     fetch(link)
