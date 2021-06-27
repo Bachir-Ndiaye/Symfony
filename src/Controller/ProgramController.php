@@ -13,6 +13,7 @@ use App\Form\ProgramType;
 use App\Form\SearchProgramFormType;
 use App\Repository\ProgramRepository;
 use App\Service\Slugify;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -230,6 +231,35 @@ class ProgramController extends AbstractController
             'programId' => $program,
             'seasonId' => $season,
             'episodeId' => $episode
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/watchlist", name="watchlist", methods={"GET", "POST"})
+     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"id": "id"}})
+     */
+    public function addToWatchlist(Request $request, EntityManagerInterface $entityManager, Program $program): Response
+    {
+        if(($this->getUser() === null)){
+
+            $this->addFlash('danger', 'Vous devez vous connecter pour accèder à cette page');
+            return $this->redirectToRoute('app_index');
+        }
+
+        if(($this->getUser() !== null )){
+            if($this->getUser()->isInWatchlist($program)){
+
+                $this->getUser()->removeWatchlist($program);
+                $entityManager->flush();
+
+            }else{
+                $this->getUser()->addWatchlist($program);
+                $entityManager->flush();
+            }
+        }
+
+        return $this->redirectToRoute('program_show',[
+            'slug' => $program->getSlug()
         ]);
     }
 

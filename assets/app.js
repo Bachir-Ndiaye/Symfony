@@ -14,4 +14,7 @@ import './bootstrap';
 //import favicon
 import logoPath from './images/logo.png';
 
+//import bootstrap icons
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 

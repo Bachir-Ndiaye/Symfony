@@ -21,7 +21,14 @@
             <a class="fiche" href="{{ path("program_show", { slug: program.slug }) }}">Voir la fiche</a>
             {% if is_granted("ROLE_ADMIN") %}
                 <a href="{{ path('program_edit', { slug: program.slug} ) }}">Éditer</a>
-            {%endif%}
+            {% endif %}
+            {% if app.user %}
+                <a href="{{ path('program_watchlist', {id: program.id})}}">
+                    <i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                </a>
+            {% endif %}
+            
+
         </div>
     {% else %}
         Aucune série trouvée.
